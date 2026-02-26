@@ -55,7 +55,81 @@ Finally, create a new Fabric workspace in a supported capacity and add the servi
 
 ![](resources/img/fabric-workspace-add-service-principal.png)
 
-## 1. Create and configure a GitHub repository
+## 1. Introduction to fabric-cicd
+
+When pushing a PBIP project to GitHub, how does our source code actually get deployed to a Fabric workspace? The answer is [`fabric-cicd`](https://microsoft.github.io/fabric-cicd/latest/) — a Python library developed by Microsoft that is the recommended tool for deploying Fabric items from source control to workspaces.
+
+`fabric-cicd` provides a code-first method to deploy Fabric items — including Power BI semantic models and reports in PBIP format — using their source definition files. Rather than interacting directly with Microsoft Fabric REST APIs, you write a short Python script that calls `fabric-cicd` functions, and the library handles the API calls, retries, and status polling for you.
+
+A key design principle of `fabric-cicd` is that **the same Python script works identically on your local machine and inside a GitHub Actions workflow**. This means you can understand and test deployments locally before automating them, and troubleshoot CI/CD failures by reproducing them on your workstation.
+
+### Why fabric-cicd?
+
+Microsoft recommends `fabric-cicd` for PBIP deployments for several reasons:
+
+| Advantage | Description |
+| --- | --- |
+| **Fabric-native REST APIs** | Built on official Fabric APIs, ensuring long-term compatibility and support |
+| **Python-native** | Seamless integration with modern Python-based DevOps workflows |
+| **Parameterization** | Built-in support for environment-specific configurations (workspace IDs, lakehouse IDs, connection strings) via `parameter.yml` |
+| **Flexible deployment control** | Deploy specific item types only (e.g., just semantic models, or reports without data cache) |
+| **Orphan cleanup** | Automatically removes items from the workspace that no longer exist in source control |
+| **Reliable authentication** | Uses Azure Identity SDK with multiple authentication options — browser, CLI, or service principal |
+
+### Prerequisites
+
+`fabric-cicd` requires **Python 3.9 to 3.12**. Confirm your Python installation by opening a terminal and running:
+
+```
+python --version
+```
+
+You should see output like `Python 3.12.x`. If Python is not installed, download it from [python.org](https://www.python.org/downloads/) (Python 3.12 is listed in the main workshop requirements).
+
+### Installation
+
+Install the library using `pip`:
+
+```
+pip install fabric-cicd
+```
+
+Verify the installation succeeded:
+
+```
+python -c "from fabric_cicd import FabricWorkspace; print('fabric-cicd installed successfully')"
+```
+
+You should see `fabric-cicd installed successfully` printed to the terminal.
+
+### How fabric-cicd fits into the deployment pipeline
+
+The overall deployment flow looks like this:
+
+```
+PBIP Source Files
+       │
+       ▼
+   deploy.py           ← Python script you write once
+       │
+       ├── Run locally (for testing)
+       │       │
+       │       └── fabric-cicd ──► Fabric Workspace
+       │
+       └── Run via GitHub Actions (automated)
+               │
+               └── fabric-cicd ──► Fabric Workspace
+```
+
+In the next steps, you will:
+1. Create a GitHub repository and configure it with your deployment credentials
+2. Write the `deploy.py` deployment script and commit it to your repository
+3. See how GitHub Actions runs that same script automatically on every push to `main`
+
+> [!NOTE]
+> For this workshop we keep things simple with a single workspace (production). In real-world scenarios, `fabric-cicd` supports multi-environment deployments using a `parameter.yml` file to swap workspace IDs and connection strings depending on the target environment. See the [fabric-cicd documentation](https://microsoft.github.io/fabric-cicd/latest/) to learn more.
+
+## 2. Create and configure a GitHub repository
 
 [Create a new GitHub repository](https://github.com/new) to host the project from Lab 3. Decide owner, name, and visibility.
 
@@ -124,7 +198,7 @@ Once the publish has succeeded, go back to your browser tab with the newly creat
 
 ![](resources/img/gh-repo-published.png)
 
-## 2. First automated CI/CD deployment
+## 3. First automated CI/CD deployment
 
 Since the GitHub repository was fully pre-configured by us with deployment secrets and variables, this initial publish should already have triggered our first automated CI/CD deployment.
 
@@ -162,7 +236,7 @@ Now, the report will load successfully.
 
 This step is only required after the first deployment.
 
-## 3. Set up branch protection rules
+## 4. Set up branch protection rules
 
 Let's now put a branch protection rule in place. Since any updates to our `main` branch publish directly into the Fabric workspace, it is best practice to protect the branch and prevent direct updates on it. Instead, a Pull Request process will be required. Instead of making further changes directly on `main`, all team members will make changes in separate branches, publish those branches to GitHub, and raise a "Pull Request" for the changes to be integrated into `main`. That starts a review process.
 
@@ -184,7 +258,7 @@ Once confirmed, navigate to the Code > Branches overview. The `main` branch now 
 
 ![](resources/img/gh-branches-protection-applied.png)
 
-## 4. Start work in a new branch and create a Pull Request
+## 5. Start work in a new branch and create a Pull Request
 
 Let's test this new workflow. On your machine, create a new branch and make a minor report change. For instance, replace all occurrences of "MyCompany" in the report with your company name. Commit the changes and publish the new branch.
 
@@ -223,7 +297,7 @@ With your fixes pushed to the same branch, the existing Pull Request will pick u
 
 ![](resources/img/gh-pr-checks-passed.png)
 
-## 5. Merge the Pull Request
+## 6. Merge the Pull Request
 
 Once you (or your reviewer) is happy for the changes in the pull request to go into Production, click the green "Merge pull request" button. That will merge all changes into the `main` branch, which will automatically trigger the deployment pipeline!
 
@@ -238,12 +312,15 @@ You’ve now:
 
 - Published a local git repository to a remote CI server
 - Configured a service principal for automated deployments of a Power BI project to a Fabric workspace
+- Used `fabric-cicd` — Microsoft's recommended Python library — as the deployment engine
 - Set up automated tests to act as quality gates for pull requests
 
 We have certainly only scratched the surface of the world of GitHub Actions and CI/CD. However, you should have a solid foundation to build upon now as you have practically explored all key git and CI/CD concepts and activities.
 
 ## Useful links
 
+- [fabric-cicd documentation](https://microsoft.github.io/fabric-cicd/latest/)
+- [Deploy Power BI projects (PBIP) using fabric-cicd](https://learn.microsoft.com/en-us/power-bi/developer/projects/projects-deploy-fabric-cicd)
 - [Quickstart for GitHub Actions](https://docs.github.com/en/actions/get-started/quickstart)
 - [GitHub: About Pull Requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
 - [GitHub: Protected Branches](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
