@@ -56,7 +56,7 @@ This lab shows how AI can supercharge your Power BI development — from batch-e
    
     ![copilot-agent-mode](resources/img/copilot-agent-mode.png)
 
-1. Enable [Agent Skills](vscode://settings/chat.useAgentSkills) in user settings (Ctrl+,).
+1. Enable [Agent Skills](vscode://settings/chat.useAgentSkills) and [Use Skill Adherence Prompt](vscode://settings/chat.experimental.useSkillAdherencePrompt) in user settings (Ctrl+,).
    
     ![copilot-agent-skills-enable](resources/img/copilot-agent-skills-enable.png)
 
@@ -154,6 +154,7 @@ This lab shows how AI can supercharge your Power BI development — from batch-e
 > [!TIP]
 > - The AI model you select directly influences the quality and relevance of the responses you receive. For the best results, choose a deep-reasoning model such as `GPT-5.1` or `Claude Sonnet 4.5`. You can find more details about available models in the [model-comparison](https://docs.github.com/en/copilot/reference/ai-models/model-comparison).
 > - Creating a [new chat session](https://code.visualstudio.com/docs/copilot/chat/chat-sessions#_start-a-new-chat-session) clears the history and starts a fresh context window. You can monitor [context window usage](https://code.visualstudio.com/docs/copilot/chat/copilot-chat-context#_monitor-context-window-usage) in the chat input box.
+> - Find more Power BI skills in [aka.ms/powerbi-agentic](https://aka.ms/powerbi-agentic)
 
 ### Review the skill instructions
 
@@ -249,7 +250,7 @@ Without the `powerbi-tmdl` skill, the AI is likely to produce incorrect TMDL syn
 ### Verify Power BI Modeling MCP in VS Code
  
 1. Open **Visual Studio Code**
-2. Make sure the [**Power BI Modeling MCP**](https://marketplace.visualstudio.com/items?itemName=analysis-services.powerbi-modeling-mcp) extension is installed. Search for `Power BI Modeling MCP` in the Extensions panel and install it if needed.
+2. Make sure the [**Power BI Modeling MCP**](https://marketplace.visualstudio.com/items?itemName=analysis-services.powerbi-modeling-mcp) extension is installed with latest version. Search for `Power BI Modeling MCP` in the Extensions panel and install it if needed.
 3. Open the **Command Pallete** (`F1`) > **MCP: List Servers**, click on `powerbi-modeling-mcp` and select **Start Server** or **Restart Server**
    
     ![copilot-list-servers](resources/img/copilot-list-servers.png)
@@ -290,7 +291,9 @@ Without the `powerbi-tmdl` skill, the AI is likely to produce incorrect TMDL syn
 
     ![copilot-mcp-server-largest-tables](resources/img/copilot-mcp-server-largest-tables.png)
 
-6. Type the following prompt to set descriptions using a company verbiage in all columns and measures
+### Set Descriptions with MCP
+
+1. Type the following prompt to set descriptions using a company verbiage in all columns and measures
 
     ```
     Set descriptions in all measures of my model. Incorporate business verbiage in the descriptions.    
@@ -307,15 +310,15 @@ Without the `powerbi-tmdl` skill, the AI is likely to produce incorrect TMDL syn
     - has a global workforce and local teams to support regional markets.
     ```
 
-7. Observe how the agent uses the available MCP tools to analyze the tables and set the descriptions
+1. Observe how the agent uses the available MCP tools to analyze the tables and set the descriptions
    
    ![copilot-mcp-server-apply-descriptions](resources/img/copilot-mcp-server-apply-descriptions.png)
 
-8. Go back to **Power BI Desktop** and verify that the descriptions were applied to the measures using the business verbiage
+1. Go back to **Power BI Desktop** and verify that the descriptions were applied to the measures using the business verbiage
 
     ![copilot-mcp-server-measure-descriptions](resources/img/copilot-mcp-server-measure-descriptions.png)
 
-9. _Optional_ Try other modeling changes such as:
+1. _Optional_ Try other modeling changes such as:
     
     - `Generate a French translation culture for my model including tables, columns and measures.`      
     - `Move all my measures into a '_MEASURES_' table`
@@ -327,7 +330,7 @@ Without the `powerbi-tmdl` skill, the AI is likely to produce incorrect TMDL syn
 > - The MCP server can connect to semantic models in Power BI Desktop, Fabric Workspace or PBIP folders. Learn more in [powerbi-modeling-mcp](https://github.com/microsoft/powerbi-modeling-mcp?tab=readme-ov-file#-get-started)
 > - The Power BI Modeling MCP server can only execute modeling operations. It cannot modify other types of Power BI metadata, such as report pages or semantic model elements like diagram layouts.
 
-## 5. _Optional_ Enforce Team Best Practices Using the Power BI Modeling MCP Server
+## 5. Enforce Team Best Practices Using the Power BI Modeling MCP Server [_Optional_]
 
 ✅ **Goal**: Connect **GitHub Copilot** directly to a running Power BI semantic model using the **Power BI Modeling MCP**, review a semantic model against team guidelines, and apply changes through the MCP.
 
@@ -336,7 +339,7 @@ Without the `powerbi-tmdl` skill, the AI is likely to produce incorrect TMDL syn
 # Review the model against team guidelines
 
 1. Open [.labs/lab1/resources/Sales.pbix](../lab1/resources/Sales.pbix) in **Power BI Desktop**.
-1. Copy the file [`resources/modeling-best-practices.md`](resources/modeling-best-practices.md) into your lab folder.
+1. Copy the file [`resources/team-modeling-rules`](resources/team-modeling-rules) into your lab folder.
    
     Your `Lab3/` folder should look like this:
 
@@ -348,13 +351,13 @@ Without the `powerbi-tmdl` skill, the AI is likely to produce incorrect TMDL syn
     │       │   └── SKILL.md
     │       ...    
     ├── ...    
-    ├── modeling-best-practices.md
+    ├── team-modeling-rules
     ```
 
 3. In the Copilot chat, type the following prompt:
 
     ```    
-    Load my team modeling guidelines in `modeling-best-practices.md`, review my semantic model and tell me what should I change
+    Load my team modeling guidelines in `team-modeling-rules`, review my semantic model and tell me what should I change
     ```    
 
    Observe how the agent uses the **MCP** to analyze the semantic model:
@@ -377,10 +380,10 @@ Without the `powerbi-tmdl` skill, the AI is likely to produce incorrect TMDL syn
       
 5. Go back to **Power BI Desktop** and verify that the changes have been applied to the semantic model. 
 
-6. _Optional_ Change the `modeling-best-practices.md` with new rules, prompt the agent to review the model again and check if the new rules are applied.
+6. _Optional_ Change the `team-modeling-rules` with new rules, prompt the agent to review the model again and check if the new rules are applied.
 
 > [!TIP]
-> - This is a powerful pattern for team governance. By maintaining a `modeling-best-practices.md` file in your repository, any team member can ask the AI to audit a semantic model against the team's standards at any time.
+> - This is a powerful pattern for team governance. By maintaining a `team-modeling-rules` file in your repository, any team member can ask the AI to audit a semantic model against the team's standards at any time.
 
 ## ✅ Wrap-up
 

@@ -16,11 +16,11 @@ By the end of this workshop, you will:
 
 ## Agenda
 
-| Topic                                    | Content                                                                                                    | Labs                                                              | Time          |
-| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------- |
-| **Power BI Project (PBIP) fundamentals** | • PBIP fundamentals<br>• Git basics<br>• Semantic Modeling as code with TMDL<br>• Report as code with PBIR | [Lab 1 - Power BI Project (PBIP) fundamentals](.labs/lab1/lab.md) | 9:00 - 11:30  |
-| **Power BI & CI/CD**                     | • GitHub Collaboration Workflows<br>• CI/CD Pipelines                                                      | [Lab 2 - Power BI & CI/CD](.labs/lab2/lab.md)                     | 11:30 - 14:30 |
-| **Power BI Development with AI**         | • Power BI Development with AI <br>• Agentic development                                                   | [Lab 3 - Power BI Development with AI](.labs/lab3/lab.md)         | 14:30 - 17:00 |
+| Topic                                    | Content                                                                                                    | Labs                                                              
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- 
+| **Power BI Project (PBIP) fundamentals** | • PBIP fundamentals<br>• Git basics<br>• Semantic Modeling as code with TMDL<br>• Report as code with PBIR | [Lab 1 - Power BI Project (PBIP) fundamentals](.labs/lab1/lab.md) 
+| **Power BI & CI/CD**                     | • GitHub Collaboration Workflows<br>• CI/CD Pipelines                                                      | [Lab 2 - Power BI & CI/CD](.labs/lab2/lab.md)                     
+| **Power BI Development with AI**         | • Power BI Development with AI <br>• Agentic development                                                   | [Lab 3 - Power BI Development with AI](.labs/lab3/lab.md)         
 
 ## Requirements
 
@@ -29,27 +29,11 @@ By the end of this workshop, you will:
     - You can use your existing organizational tenant but you must have admin permissions.
     - Power BI Pro license
     - Access to a Fabric Capacity or [Trial](https://learn.microsoft.com/en-us/fabric/fundamentals/fabric-trial)
-    - An existing service principal (with `client_id` and `client_secret`) in your Azure tenant or the [permission to create new Entra Application](https://learn.microsoft.com/entra/identity/role-based-access-control/delegate-app-roles) - to be used for CI/CD setup.
-    - We can provide a demo account for you if you dont have access to above.  
-  - [Github account](https://github.com/signup)
-  - [Sign-up to GitHub Copilot Trial](https://github.com/github-copilot/pro)
+    - Access to create and authorize a service principal in Fabric for automated CICD deployment. See [Create a Microsoft Entra ID app](https://learn.microsoft.com/en-us/rest/api/fabric/articles/get-started/create-entra-app).    
+  - [GitHub account](https://github.com/signup)
+  - [GitHub Copilot Free or Pro](https://github.com/github-copilot/pro) [_Optional_]
 - Software
   - [Power BI Desktop](https://pbi.onl/download)
   - [Visual Studio Code](https://code.visualstudio.com/download)
-    - Install the following extensions in Visual Studio Code:
-      - [TMDL extension](https://marketplace.visualstudio.com/items?itemName=analysis-services.TMDL)
-      - [Microsoft Fabric extension](https://marketplace.visualstudio.com/items?itemName=fabric.vscode-fabric)      
-      - [GitHub Copilot chat extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat)      
-      - [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python)
-   - [Git for Windows](https://gitforwindows.org/)   
-   - [Python 3.12](https://www.python.org/downloads/release/python-3120/)
-
-## FAQ
-
-**Q: I don't have access to Power BI license and / or Fabric Capacity.**
-
-**A:** Ask the workshop instructors for a demo account.
-
-**Q: I need a Credit Card for GitHub Copilot Pro Trial**
-
-**A:** Yes. Is mainly to prevent abuse. You can sign-up and cancel after the workshop to avoid any charges.
+  - [Git for Windows](https://gitforwindows.org/)   
+  - [Python 3.12](https://www.python.org/downloads/release/python-3120/)
