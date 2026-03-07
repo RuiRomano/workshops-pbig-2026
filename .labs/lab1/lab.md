@@ -468,6 +468,7 @@ This exercise demonstrates how to configure a local Power BI report to connect e
 1. Open `Sales.pbip` in **Power BI Desktop** and verify that the semantic model now includes the new **Time Intelligence** calculation group table. A refresh may be required.
    
     ![time intelligence calc group](resources/img/timeintelligence-calcgroup.png)
+1. Commit changes
    
 > [!TIP]
 > - The **TMDL folder structure makes it easy to reuse and collaborate while developing semantic models**. With TMDL you can maintain shared model components (e.g. calendar tables, calculation groups, roles,...) and quickly apply them to multiple semantic models by simply copy files between semantic model code repositories.
